@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+**/node_modules/
+.pnpm-store/
+
+# Build Outputs & Bundles
+dist/
+**/dist/
+build/
+**/build/
+*.tsbuildinfo
+
+# SQLite Database & Storage
+*.db
+*.db-journal
+*.db-wal
+*.sqlite
+*.sqlite3
+sqlite_data/
+server/data/
+
+# Podman & Docker Artifacts / Logs
+*.log
+podman-compose.log
+docker-compose.override.yml
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+
+# IDE, OS, & System Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
