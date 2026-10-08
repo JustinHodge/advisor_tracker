@@ -1,0 +1,21 @@
+WHO WE BUILD FOR
+The advisors are the ones who are going to use this tool. We want to make it as simple as possible for them to use.
+advisors are likely not extremely technical. We want to make it as simple as possible for them to use. 
+their day to day workflow is likely very manual and they may not be excited for a tool that takes away the "crunch"
+
+WHAT WE CUT
+Fuzzy search - absolutely a great feature but tuning fuzzy search is a time consuming task and given that advisors have 
+personal connections to their assigned students a simple string match will be sufficient until otherwise noted.
+
+HOW WE USED AI
+AI was used for scaffolding the entire project including writing the base docker files, and client server boilerplate.
+During that time I needed to install some build packages and  AI pointed me to the correct packages but was mistaken
+on the syntax of my package manager so I had to combine the two.
+
+AI suggested commonjs modules in tsconfig which I noticed as an outdated pattern. I had to correct that and let
+the AI know we were on NodeNext
+
+WHAT QUESTIONS FOR V2
+
+HOW WE WOULD CONNECT THIS TO AN ENTERPRISE CRM
+

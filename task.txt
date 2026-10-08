@@ -1,0 +1,83 @@
+** The scenario **
+A university advising office tracks student outreach in spreadsheets and email threads. Advisors can't easily see 
+which students haven't been contacted recently, or what was discussed last time. They've asked for a simple internal
+tool.
+
+You'll receive a small dataset of 50 fictional students (attached zip file) and the history of past advising contacts.
+Build a working prototype that advisors could realistically start using.
+
+** What to build **
+* Required *
+
+    A front end (React preferred) where an advisor can list, search, and filter students, open a student's detail, and 
+    log a new contact note
+    
+    A simple back-end API that serves the data and saves new notes (any language, framework, and storage is fine)
+    
+    One "smart" feature of your choice that would help an advisor decide who to reach out to or what to say.
+    Examples: a suggested outreach list, or a summary of a student's past notes. Pick whatever you think matters most.
+
+* Not required *
+
+    Authentication, deployment, or a polished design
+    Salesforce knowledge. We'll ask how you'd approach connecting this to an enterprise CRM, but you don't 
+    need to build or know it.
+
+* Your data *
+You'll find two files plus a README in the folder we send you:
+
+    students.csv — one row per student (name, major, class year, credits, GPA, advisor, last contact date, risk flag)
+    contact_notes.csv — past advising contacts linked to students by student_id
+    README.txt — column descriptions
+
+All names, emails, and notes are entirely fictional. Treat "today" as October 5, 2026. As with real data, this set is
+not perfect. Use your judgment about how your tool should handle what you find, and tell us what you noticed and 
+what you decided.
+
+** Ground rules **
+
+    Use any tools you like, including AI. We want to hear how you used them: what they helped with, and where you had
+    to step in. You are responsible for everything you submit. Scope is part of the exercise. You won't finish
+    everything you can imagine in three hours, and we don't expect you to. Cut what you need to, and be ready to tell
+    us what you cut and why. Working beats pretty. We'd rather see a smaller thing that runs than a larger thing
+    that doesn't. It's fine to run locally. A hosted version is optional.
+
+** What to send us **
+By the deadline above, upload to the Box folder:
+
+    Your code (a zip file or a repository link)
+    A short README (one page or less) covering:
+        How to run it
+        Who you built it for and what you assumed about them
+        What you cut or left for later
+        How you used AI tools, if you did
+
+Your presentation (15 minutes)
+You don't need slides. A live demo of the working prototype is ideal. Please cover:
+
+    Who did you build this for, and what did you assume about them?
+    What did you cut, and why?
+    Where did AI help, and where did you have to step in?
+    What would you ask the advisors before building a second version?
+    How would you connect this to an enterprise CRM, and what could go wrong?
+
+We'll then spend about 10 minutes asking questions about your choices.
+What we're looking for
+We care about how you think and work as much as the code itself:
+
+    Does it work end to end?
+    Are your scoping decisions sensible and clearly explained?
+    Did you think about the people who would use it?
+    Can you explain your work clearly to both technical and non-technical colleagues?
+    Can you describe your use of AI tools honestly and specifically?
+
+A few practical notes
+
+    We will not use your work. This exercise is for evaluation only. Nothing you build will be used in any
+    University system, and the code stays yours. Your time matters. We know you may be working full-time. If you need
+    an accommodation or a different format, please contact Meredith (maronson@arizona.edu) and we'll work something out.
+    If something is unclear, make assumptions and move forward, but share those in your presentation.  If something is 
+    blatantly wrong, please reach out to Meredith (maronson@arizona.edu)
+
+Thank you, and good luck. We're looking forward to seeing what you build.
+meredith
