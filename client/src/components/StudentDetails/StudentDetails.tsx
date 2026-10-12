@@ -4,9 +4,10 @@ import type { IStudent, IContactNote } from '../../types';
 interface IProps {
     student: IStudent
     exitStudentDetails: () => void
+    setError: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
-export const StudentDetails = ({ student, exitStudentDetails }: IProps) => {
+export const StudentDetails = ({ student, exitStudentDetails, setError }: IProps) => {
     const [notes, setNotes] = useState<IContactNote[]>([]);
 
     useEffect(() => {
@@ -16,6 +17,42 @@ export const StudentDetails = ({ student, exitStudentDetails }: IProps) => {
             .then((res) => res.json())
             .then((data: IContactNote[]) => setNotes(data));
     }, [student])
+
+
+    const handlAddNote = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.target as HTMLFormElement);
+
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+
+        const response = await fetch(`${apiUrl}/api/students/${student.student_id}/notes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                note_text: formData.get('note_text'),
+                contact_date: formData.get('contact_date'),
+                advisor: formData.get('advisor'),
+                contact_type: formData.get('contact_type'),
+            }),
+        })
+
+        const json = await response.json();
+
+        if (!response.ok) {
+            if (json.message) {
+                setError(json.message);
+            } else {
+                setError('Something went wrong');
+            }
+
+            return;
+        }
+
+        setNotes([...notes, json]);
+
+    }
 
     return (
         <>
@@ -31,13 +68,15 @@ export const StudentDetails = ({ student, exitStudentDetails }: IProps) => {
             <p>Risk Flag: {student.risk_flag}</p>
             <p>Notes:</p>
             <table>
-                <tbody>
+                <thead>
                     <tr>
                         <th>Advisor</th>
                         <th>Contact Type</th>
                         <th>Contact Date</th>
                         <th>Note Text</th>
                     </tr>
+                </thead>
+                <tbody>
                     {notes.map((note) => (
                         <tr key={note.note_id}>
                             <td>{note.advisor}</td>
@@ -49,36 +88,7 @@ export const StudentDetails = ({ student, exitStudentDetails }: IProps) => {
                 </tbody>
             </table>
 
-            <form onSubmit={async (e) => {
-                e.preventDefault();
-                const formData = new FormData(e.target as HTMLFormElement);
-
-                const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
-
-                const response = await fetch(`${apiUrl}/api/students/${student.student_id}/notes`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        note_text: formData.get('note_text'),
-                        contact_date: formData.get('contact_date'),
-                        advisor: formData.get('advisor'),
-                        contact_type: formData.get('contact_type'),
-                    }),
-                })
-
-                const json = await response.json();
-
-                if (response.status === 500) {
-                    alert(json.message);
-                    return;
-                }
-
-                if (response.status === 200) {
-                    setNotes([...notes, json]);
-                }
-            }}>
+            <form onSubmit={handlAddNote}>
                 <input type="text" id="note_text" name="note_text" placeholder="Enter a new note" />
                 <input type="date" id="contact_date" name="contact_date" placeholder="Enter a contact date" defaultValue={new Date().toISOString().split('T')[0]} />
                 <input type="text" id="advisor" name="advisor" placeholder="Enter an advisor" defaultValue={student.advisor ?? ''} />

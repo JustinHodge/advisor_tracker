@@ -11,9 +11,9 @@ Build a working prototype that advisors could realistically start using.
 
     A front end (React preferred) where an advisor can list, search, and filter students, open a student's detail, and 
     log a new contact note
-    
+
     A simple back-end API that serves the data and saves new notes (any language, framework, and storage is fine)
-    
+
     One "smart" feature of your choice that would help an advisor decide who to reach out to or what to say.
     Examples: a suggested outreach list, or a summary of a student's past notes. Pick whatever you think matters most.
 

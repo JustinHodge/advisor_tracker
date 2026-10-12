@@ -3,6 +3,7 @@ import cors from 'cors';
 
 import getDB from './database/database.js';
 import { IStudent, IContactNote } from './types.js';
+import { formatText } from './utils.js';
 
 const app = express();
 const db = getDB();
@@ -11,14 +12,6 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
-// app.get('/api/students', (_req: Request, res: Response) => {
-//     try {
-//         const students = db.prepare('SELECT * FROM students').all() as IStudent[];
-//         res.json(students);
-//     } catch (err) {
-//         res.status(500).json({ status: 'error', message: 'DB query failed' });
-//     }
-// })
 app.get('/api/students', (_req: Request, res: Response) => {
     try {
         const DANGER_WORDS = [
@@ -83,6 +76,8 @@ app.post('/api/students/:student_id/notes', (req: Request, res: Response) => {
     try {
         const { student_id } = req.params;
         const { note_text, advisor, contact_type, contact_date } = req.body;
+        // NOTE: using uuid here instead of trying to match student ID. We would ideally like to know if those are
+        // arbitrary values or an internal ID used by our CRM. For now assume arbitrary.
         const note_id = crypto.randomUUID();
 
         const queryTemplate = db.prepare(`
@@ -91,7 +86,7 @@ app.post('/api/students/:student_id/notes', (req: Request, res: Response) => {
             RETURNING *
         `);
 
-        const note = queryTemplate.get(note_id, student_id, contact_date, contact_type, advisor, note_text);
+        const note = queryTemplate.get(note_id, student_id, contact_date, formatText(contact_type), advisor, note_text);
         res.json(note);
     } catch (err) {
         res.status(500).json({ status: 'error', message: 'DB query failed' });

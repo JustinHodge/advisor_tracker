@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS contact_notes (
   note_id TEXT PRIMARY KEY,
   student_id TEXT NOT NULL,
   contact_date TEXT NOT NULL,
-  contact_type TEXT CHECK (contact_type IN ('Email', 'Phone', 'Zoom', 'In person')),
+  contact_type TEXT,
   advisor TEXT,
   note_text TEXT NOT NULL,
   FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE

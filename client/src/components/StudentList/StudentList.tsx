@@ -30,9 +30,9 @@ export const StudentList = ({ students, setSelectedStudent }: IProps) => {
             <div>
                 <legend>Filter by:</legend>
                 <select onChange={(e) => { setFilter({ key: e.target.value, value: filter?.value }); }} value={filter?.key || ''}>
-                    {studentKeys && studentKeys.map((key) => (
+                    {studentKeys ? studentKeys.map((key) => (
                         <option key={key}>{key}</option>
-                    ))}
+                    )) : null}
                 </select>
                 <input type="text" onChange={(e) => { setFilter({ key: filter?.key || '', value: e.target.value }); }} value={filter?.value || ''} />
                 <button onClick={() => { setFilter(undefined); }}>Reset Filter</button>
@@ -42,12 +42,7 @@ export const StudentList = ({ students, setSelectedStudent }: IProps) => {
                     <tr>
                         <th>Priority Score</th>
                         <th>Name</th>
-                        <th>Email</th>
-                        <th>Major</th>
-                        <th>Class Year</th>
-                        <th>Credits Earned</th>
                         <th>GPA</th>
-                        <th>Advisor</th>
                         <th>Last Contact Date</th>
                         <th>Risk Flag</th>
                     </tr>
@@ -57,12 +52,7 @@ export const StudentList = ({ students, setSelectedStudent }: IProps) => {
                         <tr key={student.student_id} onClick={() => { setSelectedStudent(student); }}>
                             <td>{student.priority_score}</td>
                             <td>{student.first_name} {student.last_name}</td>
-                            <td>{student.email}</td>
-                            <td>{student.major}</td>
-                            <td>{student.class_year}</td>
-                            <td>{student.credits_earned}</td>
                             <td>{student.gpa}</td>
-                            <td>{student.advisor}</td>
                             <td>{student.last_contact_date}</td>
                             <td>{student.risk_flag}</td>
                         </tr>

@@ -46,6 +46,12 @@ export const seedData = (db: Database) => {
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `);
 
+        // TODO: Dates are wildly inconsistent. Various formats and even some missing values.
+        // This should be normalized so filtering works better
+        //
+        // NOTE: risk_flag is an arbitrary string. We need more information from the advising office on how this is
+        // set and what it's importance is to better integrate it into our priority score.
+        //
         for (const student of students) {
             insertStudent.run(
                 student.student_id,
@@ -68,6 +74,11 @@ export const seedData = (db: Database) => {
             ) VALUES (?, ?, ?, ?, ?, ?)
         `);
 
+        // TODO: Contact_type should be normalized out to it's own table and referenced by ID here instead of text
+        // TODO: Dates are wildly inconsistent. Various formats and even some missing values.
+        // This should be normalized so filtering works better
+        // NOTE: the seed data can (and does) contain restricted data. This must be handled carefully. Notes should not
+        // be used or accessible externally without heavy sanitization (e.g. N041 contains SSN).
         for (const contactNote of contactNotes) {
             insertNote.run(
                 contactNote.note_id,
