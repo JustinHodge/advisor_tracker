@@ -1,36 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import StudentList from './components/StudentList/StudentList';
+import StudentDetails from './components/StudentDetails/StudentDetails';
 
-// Mirroring the health check type from API
-interface HealthCheckResponse {
-  status: 'ok' | 'error';
-  dbMessage: string;
-  timestamp: string;
-}
+import type { IStudent } from './types';
 
 export function App() {
-  const [data, setData] = useState<HealthCheckResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
+    const [students, setStudents] = useState<IStudent[]>([]);
+    const [selectedStudent, setSelectedStudent] = useState<IStudent | undefined>();
 
-  useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
-    
-    fetch(`${apiUrl}/api/health`)
-      .then((res) => res.json())
-      .then((data: HealthCheckResponse) => setData(data))
-      .catch((err) => setError(err.message));
-  }, []);
+    useEffect(() => {
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
-  if (error) return <div>Error connecting to API: {error}</div>;
-  if (!data) return <div>Connecting to backend...</div>;
+        fetch(`${apiUrl}/api/students`)
+            .then((res) => res.json())
+            .then((data: IStudent[]) => setStudents(data));
+    }, []);
 
-  return (
-    <div style={{ fontFamily: 'sans-serif', padding: '2rem' }}>
-      <h1>Student Portal Prototype</h1>
-      <p><strong>API Status:</strong> {data.status}</p>
-      <p><strong>DB Connection:</strong> {data.dbMessage}</p>
-      <p><strong>Server Time:</strong> {data.timestamp}</p>
-    </div>
-  );
+    console.log(students);
+
+    return (
+        <>
+            <h1>Advisor Tracker</h1>
+            {selectedStudent ?
+                <StudentDetails student={selectedStudent} exitStudentDetails={() => { setSelectedStudent(undefined); }} />
+                : <StudentList students={students} setSelectedStudent={setSelectedStudent} />
+            }
+        </>
+    )
 }
 
 export default App;
