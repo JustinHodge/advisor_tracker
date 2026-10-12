@@ -37,8 +37,17 @@ app.get('/api/students', (_req: Request, res: Response) => {
                 GROUP BY student_id
             )
             SELECT
-                s.*,
-                COALESCE(nm.keyword_hits, 0) as keyword_hits,
+                s.student_id,
+                s.first_name,
+                s.last_name,
+                s.email,
+                s.major,
+                s.class_year,
+                s.credits_earned,
+                s.gpa,
+                s.advisor,
+                s.last_contact_date,
+                s.risk_flag,
                 (
                     CASE s.risk_flag WHEN 'High' THEN 40 WHEN 'Medium' THEN 20 ELSE 0 END
                     + CASE WHEN s.gpa < 2.5 THEN CAST((2.5 - s.gpa) * 20 AS INTEGER) ELSE 0 END
