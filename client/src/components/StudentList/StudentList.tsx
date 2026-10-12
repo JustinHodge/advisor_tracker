@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { getPriorityClass, getGPAClass, getRiskFlagClass, getLastContactDateClass } from "../../utils";
+
 import type { IStudent } from "../../types";
 
 interface IFilter {
@@ -48,15 +50,29 @@ export const StudentList = ({ students, setSelectedStudent }: IProps) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredStudents.map((student) => (
-                        <tr key={student.student_id} onClick={() => { setSelectedStudent(student); }}>
-                            <td>{student.priority_score}</td>
-                            <td>{student.first_name} {student.last_name}</td>
-                            <td>{student.gpa}</td>
-                            <td>{student.last_contact_date}</td>
-                            <td>{student.risk_flag}</td>
-                        </tr>
-                    ))}
+                    {filteredStudents.map((student) => {
+                        return (
+                            <tr key={student.student_id} className="clickable" onClick={() => { setSelectedStudent(student); }}>
+                                <td>
+                                    <span className={getPriorityClass(student.priority_score)}>{student.priority_score}</span>
+                                </td>
+                                <td>
+                                    <span> {student.first_name} {student.last_name}</span>
+                                </td>
+                                <td>
+                                    <span className={getGPAClass(student.gpa ?? 0)}>{student.gpa}</span>
+                                </td>
+                                <td>
+                                    <span className={getLastContactDateClass(student.last_contact_date)}>{
+                                        student.last_contact_date && student.last_contact_date.length ? student.last_contact_date : 'N/A'
+                                    }</span>
+                                </td>
+                                <td>
+                                    <span className={getRiskFlagClass(student.risk_flag)}>{student.risk_flag}</span>
+                                </td>
+                            </tr>
+                        )
+                    })}
                 </tbody>
 
             </table>

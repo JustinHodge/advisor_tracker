@@ -7,6 +7,10 @@
   --accent: #aa3bff;
   --accent-bg: rgba(170, 59, 255, 0.1);
   --accent-border: rgba(170, 59, 255, 0.5);
+  --accent-danger: rgba(255, 0, 0, 0.1);
+  --accent-warning: rgba(255, 165, 0, 0.1);
+  --accent-notice: rgba(255, 255, 0, 0.1);
+  --accent-success: rgba(0, 255, 0, 0.1);
   --social-bg: rgba(244, 243, 236, 0.5);
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
@@ -108,4 +112,80 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+button, input {
+    margin: 1em;
+}
+
+thead th {
+  text-align: left;
+  border: 1px solid var(--border);
+  background: var(--accent-bg);
+  padding: 4px 8px;
+}
+
+tbody tr {
+  border: 1px solid var(--border);
+}
+
+tbody tr.clickable:hover {
+  background: var(--social-bg);
+  cursor: pointer;
+}
+
+tbody td {
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+}
+
+.text-danger {
+    color: var(--accent-danger);
+    font-weight: bold;
+}
+
+.text-success {
+    color: var(--accent-success);
+    font-weight: bold;
+}
+
+.text-notice {
+    color: var( --accent-notice);
+    font-weight: bold;
+}
+
+.text-warning {
+    color: var(--accent-warning);
+    font-weight: bold;
+}
+
+.pill {
+    border-radius: 16px;
+    padding: 4px 8px;
+    background: var(--accent-bg);
+    display: inline-block;
+}
+
+.pill.pill-danger {
+    background-color: var(--accent-danger);
+}
+.pill.pill-success {
+    background-color: var(--accent-success);
+}
+.pill.pill-notice {
+    background-color: var(--accent-notice);
+}
+.pill.pill-warning {
+    background-color: var(--accent-warning);
+}
+
+.error-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 8px;
+    background: var(--accent-danger);
+    color: var(--text-h);
+    font-weight: bold;
+    border-radius: 4px;
 }

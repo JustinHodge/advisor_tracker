@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { IStudent, IContactNote } from '../../types';
+import { getGPAClass, getLastContactDateClass, getPriorityClass, getRiskFlagClass } from '../../utils';
 
 interface IProps {
     student: IStudent
@@ -22,6 +23,10 @@ export const StudentDetails = ({ student, exitStudentDetails, setError }: IProps
     const handlAddNote = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.target as HTMLFormElement);
+        if (!formData.get('note_text') || !formData.get('contact_date') || !formData.get('advisor') || !formData.get('contact_type')) {
+            setError('All fields are required');
+            return;
+        }
 
         const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
@@ -58,14 +63,15 @@ export const StudentDetails = ({ student, exitStudentDetails, setError }: IProps
         <>
             <h2>Student Details</h2>
             <p>Name: {student.first_name} {student.last_name}</p>
+            <p>Priority Score: <span className={getPriorityClass(student.priority_score)}>{student.priority_score}</span></p>
             <p>Email: {student.email}</p>
             <p>Major: {student.major}</p>
             <p>Class Year: {student.class_year}</p>
             <p>Credits Earned: {student.credits_earned}</p>
-            <p>GPA: {student.gpa}</p>
+            <p>GPA: <span className={getGPAClass(student.gpa ?? 0)}>{student.gpa}</span></p >
             <p>Advisor: {student.advisor}</p>
-            <p>Last Contact Date: {student.last_contact_date}</p>
-            <p>Risk Flag: {student.risk_flag}</p>
+            <p>Last Contact Date: <span className={getLastContactDateClass(student.last_contact_date)}>{student.last_contact_date && student.last_contact_date.length ? student.last_contact_date : 'N/A'}</span></p>
+            <p>Risk Flag: <span className={getRiskFlagClass(student.risk_flag)}>{student.risk_flag}</span></p>
             <p>Notes:</p>
             <table>
                 <thead>

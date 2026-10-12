@@ -1,11 +1,13 @@
 interface IProps {
-    message: string
+    message: string,
+    clearError: () => void
 }
 
-export const ErrorBanner = ({ message }: IProps) => {
+export const ErrorBanner = ({ message, clearError }: IProps) => {
     return (
         <div className="error-banner">
             <p>{message}</p>
+            <button onClick={clearError}>Dismiss</button>
         </div>
     )
 }

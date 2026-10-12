@@ -29,7 +29,7 @@ export function App() {
 
     return (
         <>
-            {error ? <ErrorBanner message={error} /> : null}
+            {error ? <ErrorBanner message={error} clearError={() => setError(undefined)} /> : null}
             <h1>Advisor Tracker</h1>
             {selectedStudent ?
                 <StudentDetails student={selectedStudent} exitStudentDetails={() => { setSelectedStudent(undefined); }} setError={setError} />
