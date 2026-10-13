@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "server": "tsx watch server/src/index.ts",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build:server": "tsc --project server/tsconfig.json",
+    "build:client": "npm run build --prefix client",
+    "start": "node dist/server/index.js",
+    "pls_reset_db": "rm -rf server/data.db server/data.db-wal server/data.db-shm"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6",
+    "tsx": "^4.23.15"
+  }
+}
