@@ -2,8 +2,8 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 
 import getDB from './database/database.js';
-import { IStudent, IContactNote } from './types.js';
-import { formatText } from './utils.js';
+import { IContactNote } from './types.js';
+import { formatText, normalizeDate } from './utils.js';
 
 const app = express();
 const db = getDB();
@@ -89,13 +89,40 @@ app.post('/api/students/:student_id/notes', (req: Request, res: Response) => {
         // arbitrary values or an internal ID used by our CRM. For now assume arbitrary.
         const note_id = crypto.randomUUID();
 
-        const queryTemplate = db.prepare(`
+        const normalizedDate = normalizeDate(contact_date);
+
+        if (!normalizedDate || !note_text) {
+            return res.status(400).json({ status: 'error', message: 'contact_date and note_text are required' });
+        }
+        const exists = db.prepare('SELECT 1 FROM students WHERE student_id = ?').get(student_id);
+        if (!exists) {
+            return res.status(404).json({ status: 'error', message: 'Student not found' });
+        }
+
+        const insertNote = db.prepare(`
             INSERT INTO contact_notes (note_id, student_id, contact_date, contact_type, advisor, note_text)
             VALUES (?, ?, ?, ?, ?, ?)
             RETURNING *
         `);
 
-        const note = queryTemplate.get(note_id, student_id, contact_date, formatText(contact_type), advisor, note_text);
+        const touchStudent = db.prepare(`
+            UPDATE students
+            SET last_contact_date = MAX(COALESCE(last_contact_date, ''), ?)
+            WHERE student_id = ?
+        `);
+
+        const saveNote = db.transaction(({
+            note_id, student_id, normalizedDate, contact_type, advisor, note_text
+        }) => {
+            const note = insertNote.get(
+                note_id, student_id, normalizedDate, formatText(contact_type), advisor, note_text
+            );
+            touchStudent.run(normalizedDate, student_id);
+            return note;
+        });
+
+        const note = saveNote({ note_id, student_id, normalizedDate, contact_type, advisor, note_text });
+
         res.json(note);
     } catch (err) {
         res.status(500).json({ status: 'error', message: 'DB query failed' });

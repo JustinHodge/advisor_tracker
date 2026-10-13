@@ -6,9 +6,10 @@ interface IProps {
     student: IStudent
     exitStudentDetails: () => void
     setError: React.Dispatch<React.SetStateAction<string | undefined>>
+    onNewNote: () => void
 }
 
-export const StudentDetails = ({ student, exitStudentDetails, setError }: IProps) => {
+export const StudentDetails = ({ student, exitStudentDetails, setError, onNewNote }: IProps) => {
     const [notes, setNotes] = useState<IContactNote[]>([]);
 
     useEffect(() => {
@@ -56,7 +57,7 @@ export const StudentDetails = ({ student, exitStudentDetails, setError }: IProps
         }
 
         setNotes([...notes, json]);
-
+        onNewNote();
     }
 
     return (

@@ -10,7 +10,7 @@ export function App() {
     const [error, setError] = useState<string | undefined>();
     const [selectedStudent, setSelectedStudent] = useState<IStudent | undefined>();
 
-    useEffect(() => {
+    const fetchStudents = () => {
         const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
         fetch(`${apiUrl}/api/students`)
@@ -22,7 +22,17 @@ export function App() {
                     throw new Error('Something went wrong')
                 }
             })
-            .then((data: IStudent[]) => { return setStudents(data) }).catch((err) => setError(err.message));
+            .then((data: IStudent[]) => {
+                setStudents(data);
+                setSelectedStudent(prev =>
+                    prev ? data.find(s => s.student_id === prev.student_id) : undefined
+                );
+            })
+            .catch((err) => setError(err.message));
+    }
+
+    useEffect(() => {
+        fetchStudents();
     }, []);
 
 
@@ -32,7 +42,11 @@ export function App() {
             {error ? <ErrorBanner message={error} clearError={() => setError(undefined)} /> : null}
             <h1>Advisor Tracker</h1>
             {selectedStudent ?
-                <StudentDetails student={selectedStudent} exitStudentDetails={() => { setSelectedStudent(undefined); }} setError={setError} />
+                <StudentDetails
+                    student={selectedStudent}
+                    exitStudentDetails={() => { setSelectedStudent(undefined); }}
+                    setError={setError}
+                    onNewNote={() => { fetchStudents(); }} />
                 : <StudentList students={students} setSelectedStudent={setSelectedStudent} />
             }
         </>
