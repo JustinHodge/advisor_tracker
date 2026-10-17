@@ -130,5 +130,5 @@ app.post('/api/students/:student_id/notes', (req: Request, res: Response) => {
 })
 
 app.listen(PORT, () => {
-    console.log(`🚀 API running on http://localhost:${PORT}`);
+    console.log(`API running on http://localhost:${PORT}`);
 });
