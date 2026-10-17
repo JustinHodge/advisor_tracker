@@ -9,11 +9,7 @@ const app = express();
 const db = getDB();
 const PORT = process.env.PORT || 4000;
 
-app.use(cors(
-    {
-        origin: '*'
-    }
-));
+app.use(cors());
 app.use(express.json());
 
 app.get('/api/students', (_req: Request, res: Response) => {
